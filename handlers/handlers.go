@@ -12,7 +12,7 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
-	"github.com/ppetko/gopxe/bbolt"
+	db "github.com/yoeria/gopxe/bbolt"
 )
 
 var (
@@ -54,7 +54,7 @@ func LoadTemplates() {
 }
 
 func getBucket() string {
-	return flag.Lookup("bucket").Value.(flag.Getter).Get().(string)
+	return flag.Lookup("bucket").Value.String()
 }
 
 func checkError(err error) {
@@ -156,7 +156,7 @@ func PutBA(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	tftpPath := flag.Lookup("tftpPath").Value.(flag.Getter).Get().(string)
+	tftpPath := flag.Lookup("tftpPath").Value.String()
 
 	if !isExists(tftpPath) {
 		http.Error(w, "Couldnt store bootaction", http.StatusNotFound)
@@ -247,9 +247,9 @@ func PXEBOOT(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	tftpPath := flag.Lookup("tftpPath").Value.(flag.Getter).Get().(string)
-	ksURL := flag.Lookup("ksURL").Value.(flag.Getter).Get().(string)
-	ksPort := flag.Lookup("port").Value.(flag.Getter).Get().(string)
+	tftpPath := flag.Lookup("tftpPath").Value.String()
+	ksURL := flag.Lookup("ksURL").Value.String()
+	ksPort := flag.Lookup("port").Value.String()
 	filePath := tftpPath + pxe.UUID
 	var kickstart string
 

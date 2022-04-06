@@ -6,7 +6,7 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.11
-    working_directory: /go/src/github.com/ppetko/gopxe
+    working_directory: /go/src/github.com/yoeria/gopxe
     steps:
       - checkout
       - run: go get -v -t -d ./...

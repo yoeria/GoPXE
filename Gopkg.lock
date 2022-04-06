@@ -28,7 +28,7 @@
 [[projects]]
   branch = "dev/code-reorg"
   digest = "1:25229c5454895ad19b89fa6ae0787855ea13f2b206147ad014fe1790f8a88018"
-  name = "github.com/ppetko/gopxe"
+  name = "github.com/yoeria/gopxe"
   packages = [
     "bbolt",
     "conf",
@@ -52,10 +52,10 @@
   input-imports = [
     "github.com/coreos/bbolt",
     "github.com/gorilla/mux",
-    "github.com/ppetko/gopxe/bbolt",
-    "github.com/ppetko/gopxe/conf",
-    "github.com/ppetko/gopxe/handlers",
-    "github.com/ppetko/gopxe/routes",
+    "github.com/yoeria/gopxe/bbolt",
+    "github.com/yoeria/gopxe/conf",
+    "github.com/yoeria/gopxe/handlers",
+    "github.com/yoeria/gopxe/routes",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

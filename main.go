@@ -5,15 +5,15 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/ppetko/gopxe/conf"
-	"github.com/ppetko/gopxe/routes"
+	"github.com/yoeria/gopxe/conf"
+	"github.com/yoeria/gopxe/routes"
 )
 
 // This is the main package
 // Output is webserver om port
 func main() {
 	conf.Setup()
-	port := flag.Lookup("port").Value.(flag.Getter).Get().(string)
+	port := flag.Lookup("port").Value.String()
 
 	routes := routes.New()
 	log.Printf("Serving on port: %s", port)

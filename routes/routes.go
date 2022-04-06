@@ -4,7 +4,7 @@ import (
 	"flag"
 	"net/http"
 
-	h "github.com/ppetko/gopxe/handlers"
+	h "github.com/yoeria/gopxe/handlers"
 
 	//External dependencies
 	"github.com/gorilla/mux"
@@ -13,7 +13,7 @@ import (
 func New() http.Handler {
 
 	const localrepo string = "/opt/localrepo"
-	tftpPath := flag.Lookup("tftpPath").Value.(flag.Getter).Get().(string)
+	tftpPath := flag.Lookup("tftpPath").Value.String()
 
 	router := mux.NewRouter()
 	router = mux.NewRouter().StrictSlash(true)

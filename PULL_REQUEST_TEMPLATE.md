@@ -13,7 +13,7 @@ _Put an `x` in the boxes that apply_
 Before submitting your PR, please review the following checklist:
 
 - [ ] I have signed the [**GoPXE CLA**](http://add-this-later).
-- [ ] I have read the [**CONTRIBUTING guide**](github.com/ppetko/gopxe/CONTRIBUTING.md).
+- [ ] I have read the [**CONTRIBUTING guide**](github.com/yoeria/gopxe/CONTRIBUTING.md).
 - [ ] **CONSIDER** adding a unit test if your PR resolves an issue.
 - [ ] **DO** keep pull requests small so they can be easily reviewed.
 - [ ] **DO** make sure unit tests pass.

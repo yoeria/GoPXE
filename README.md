@@ -1,40 +1,40 @@
 # GoPXE Project
 
-[![CircleCI](https://circleci.com/gh/ppetko/GoPXE/tree/master.svg?style=svg)](https://circleci.com/gh/ppetko/GoPXE/tree/master)
+[![CircleCI](https://circleci.com/gh/yoeria/gopxe/tree/master.svg?style=svg)](https://circleci.com/gh/yoeria/gopxe/tree/master)
 
 ## Introduction
-GoPXE is a dynamic build system for installing various operating systems on virtual machines and bare metal servers using pxe boot, tftp and dhcp wrapped into docker container orchestrated by APIs. 
+GoPXE is a dynamic build system for installing various operating systems on virtual machines and bare metal servers using pxe boot, tftp and dhcp wrapped into docker container orchestrated by APIs.
 
 ## Quickstart
 
-Download docker image 
+Download docker image
 
 ```
-docker pull ppetko/gopxe
+docker pull yoeria/gopxe
 ```
 
-### Configuration - edit the configuration files accordingly. Sample configs has been provided in the repo. 
+### Configuration - edit the configuration files accordingly. Sample configs has been provided in the repo.
 
 ```
-curl -s https://raw.githubusercontent.com/ppetko/GoPXE/master/conf/dhcpd.conf -b dhcpd.conf
-curl -s https://raw.githubusercontent.com/ppetko/GoPXE/master/conf/tftpd.conf -b tftpd.conf
+curl -s https://raw.githubusercontent.com/yoeria/gopxe/master/conf/dhcpd.conf -b dhcpd.conf
+curl -s https://raw.githubusercontent.com/yoeria/gopxe/master/conf/tftpd.conf -b tftpd.conf
 vi dhcpd.conf # and edit accordingly.
 ```
 
-### Start GoPXE using Docker image 
+### Start GoPXE using Docker image
 
 ```
 sudo docker run --rm --net=host --name goPXE -td \
             --mount type=bind,source="$(pwd)"/dhcpd.conf,target=/etc/dhcp/dhcpd.conf \
             --mount type=bind,source="$(pwd)"/tftpd.conf,target=/etc/xinetd.d/tftp \
-            ppetko/gopxe
+            yoeria/gopxe
 ```
 
-## Build your own docker image 
+## Build your own docker image
 
 ```
-go get github.com/ppetko/gopxe
-cd $GOPATH/src/github.com/ppetko/gopxe
+go get github.com/yoeria/gopxe
+cd $GOPATH/src/github.com/yoeria/gopxe
 sudo make docker-build
 
 ```
@@ -59,8 +59,8 @@ Note: Parameters are specific to your environment.
 
 ### Create BootAction
 
-* PXEBoot images are already configured for centos7 in pxebootImages/centos7, so these options are valid kernel:centos7/vmlinux and initrd:centos7/vmlizimage. You can add different specific version or different OS images in pxebootImages. 
-* myfirstbootaction is the name of your boot action. You can create many bootactions with specific parameters as long as the names are different. 
+* PXEBoot images are already configured for centos7 in pxebootImages/centos7, so these options are valid kernel:centos7/vmlinux and initrd:centos7/vmlizimage. You can add different specific version or different OS images in pxebootImages.
+* myfirstbootaction is the name of your boot action. You can create many bootactions with specific parameters as long as the names are different.
 
 ```
 curl -vv -H "Content-Type: application/json" -d \
@@ -77,12 +77,12 @@ curl -vv -H "Content-Type: application/json" -d \
 
 ```
 
-* bootaction: myfirstbootaction will reference your bootaction created earlier. 
+* bootaction: myfirstbootaction will reference your bootaction created earlier.
 * ksfile - this will reference the default kickstart which is preload. You can add you own kickstart file in ksTempl/
-* os and version - will be used to build repository in the default kickstart. If you are not using the default kickstart file, leave these options empty.  
+* os and version - will be used to build repository in the default kickstart. If you are not using the default kickstart file, leave these options empty.
 * If you want to PXEBoot using mac address instead of UUID, use "uuid": "01-YOUR-MAC-ADDRESS" option.
 
-### Create basic PXEBoot record 
+### Create basic PXEBoot record
 
 ```
 curl -vv  -H "Content-Type: application/json" -d \
@@ -99,7 +99,7 @@ curl -vv  -H "Content-Type: application/json" -d \
 
 * hostname, ip, mask, ns1, ns2, gw, will be used to build network configuration in the default kickstart
 
-### Create PXEBoot record with network options 
+### Create PXEBoot record with network options
 
 * You can view all bxeboot at http://localhost:9090/pxelinux/
 
@@ -132,7 +132,7 @@ default linux
 
 ```
 
-## Setup local install images 
+## Setup local install images
 
 ```
 # wget http://mirror.cc.columbia.edu/pub/linux/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1804.iso
@@ -141,14 +141,14 @@ default linux
 
 ```
 
-#### Once you have all files in /mnt/iso/, start and mount /mnt/iso/ inside the docker container. 
+#### Once you have all files in /mnt/iso/, start and mount /mnt/iso/ inside the docker container.
 
 ```
 sudo docker run --rm --net=host --name goPXE -td \
             --mount type=bind,source="$(pwd)"/conf/dhcpd.conf,target=/etc/dhcp/dhcpd.conf \
             --mount type=bind,source="$(pwd)"/conf/tftpd.conf,target=/etc/xinetd.d/tftp \
             --mount type=bind,source="/mnt/iso/",target=/opt/localrepo \
-            ppetko/gopxe
+            yoeria/gopxe
 ```
 
 ## TODO
@@ -157,16 +157,16 @@ sudo docker run --rm --net=host --name goPXE -td \
 - [ ] Add piplene build for the project.
 
 ## RoadMap
-- [ ] Create Ansible  hook - API endpoint that accepts ansible run configs per specific host. 
-- [ ] Create status output of the job and perhaps synch the results back to the db. 
+- [ ] Create Ansible  hook - API endpoint that accepts ansible run configs per specific host.
+- [ ] Create status output of the job and perhaps synch the results back to the db.
 - [ ] Add Status dashboard
-- [ ] Manage(start, stop, restart) dhcpd and tftpd processes from the main application instead of bash 
+- [ ] Manage(start, stop, restart) dhcpd and tftpd processes from the main application instead of bash
 - [ ] Output logs to html web page from dhcpd and the rest of the app so the user could easily troubleshoot.
 - [ ] Add Notifications/Status API (calling home with errors type)
-- [ ] Add multi OS support. Add paramerts for pxelinux.0. Currenly we can configure only one OS at the time. 
+- [ ] Add multi OS support. Add paramerts for pxelinux.0. Currenly we can configure only one OS at the time.
 
 ## Notes
-- [ ] Currently suported OS is CentOS/RedHat by the default installation. But you could reconfigure GoPXE for any other OS of choice. 
+- [ ] Currently suported OS is CentOS/RedHat by the default installation. But you could reconfigure GoPXE for any other OS of choice.
 
 ## Pull requests welcome!
 If you'd like to contribute to the project, refer to the [contributing documentation](CONTRIBUTING.md).
